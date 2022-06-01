@@ -34,8 +34,8 @@ function createTimeOutEvent(emplRecords,timeOut){
     return emplRecords;
 }
 function hoursWorkedOnDate(emplRecords,date){
-     let timeIn= emplRecords.timeInEvents.filter(elem => elem.date=date).map(elem =>  elem.hour/100);      
-     let timeOut= emplRecords.timeOutEvents.filter(elem => elem.date=date).map(elem => elem.hour/100);     
+     let timeIn= emplRecords.timeInEvents.filter(elem => elem.date==date).map(elem =>  elem.hour/100);      
+     let timeOut= emplRecords.timeOutEvents.filter(elem => elem.date==date).map(elem => elem.hour/100);     
     return timeOut - timeIn;
 }      
 function wagesEarnedOnDate(emplRecords,date){
@@ -44,12 +44,15 @@ function wagesEarnedOnDate(emplRecords,date){
 function allWagesFor(emplRecords){
         let pay = 0 ;
         for (let time of emplRecords.timeInEvents){
-            let payday = wagesEarnedOnDate(emplRecords, time.date )
-            console.log(wagesEarnedOnDate(emplRecords, time.date ))
+            let payday = wagesEarnedOnDate(emplRecords, time.date );
             pay += payday;
         }
         return pay;       
 }
-function calculatePayroll(){
-
+function calculatePayroll(emplRecords){
+    let allPay = 0;
+     emplRecords.forEach(element => {
+        allPay += allWagesFor(element);
+    });
+    return allPay
 }
